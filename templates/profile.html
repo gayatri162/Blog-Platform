@@ -1,0 +1,13 @@
+<h2>{{ username }}'s Profile</h2>
+
+{% for post in posts %}
+
+<div>
+    <h3>{{ post.title }}</h3>
+    <img src="{{ post.image }}" width="150">
+    <p>{{ post.description }}</p>
+</div>
+
+<hr>
+
+{% endfor %}

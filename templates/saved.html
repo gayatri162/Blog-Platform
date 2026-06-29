@@ -1,0 +1,13 @@
+<h2>Saved Blogs</h2>
+
+{% for post in posts %}
+
+<h3>{{ post.title }}</h3>
+
+<img src="{{ post.image }}" width="200">
+
+<p>{{ post.description }}</p>
+
+<hr>
+
+{% endfor %}

@@ -1,0 +1,140 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#f8f9fa;
+}
+
+.navbar{
+    padding:12px 20px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+.hero{
+    padding:90px 0;
+}
+
+.hero h1{
+    font-size:55px;
+    font-weight:700;
+    color:#222;
+}
+
+.hero p{
+    color:#555;
+    margin:25px 0;
+    font-size:18px;
+}
+
+.btn {
+    margin-bottom: 5px;
+}
+
+.btn-primary{
+    background:#6f42c1;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#5b35a5;
+}
+
+.card{
+    border:none;
+    border-radius:15px;
+    overflow:hidden;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+footer{
+    margin-top:70px;
+}
+
+textarea{
+    resize:none;
+}
+
+.form-control{
+    border-radius:10px;
+}
+
+.btn{
+    border-radius:8px;
+}
+
+
+.card-body h4{
+    font-weight:600;
+}
+
+@media (max-width: 992px) {
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero {
+        padding: 60px 0;
+    }
+
+}
+
+@media (max-width: 768px) {
+    h1, h2 {
+        font-size: 22px;
+    }
+
+    .card img {
+        height: 180px;
+    }
+
+    .btn {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        text-align: center;
+    }
+
+    .hero p {
+        text-align: center;
+    }
+
+    .hero .btn {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+}
