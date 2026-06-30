@@ -20,9 +20,9 @@
 
 <div class="ms-auto">
  <a class="btn btn-light btn-sm me-2" href="/dashboard">Home</a>
- <a class="btn btn-light btn-sm me-2" href="/dashboard">Blogs</a>
- <a class="btn btn-danger btn-sm" href="/logout">Logout</a>
+<a href="/saved" class="btn btn-info btn-sm me-2">Saved Blogs</a>
  <a class="btn btn-light btn-sm" href="/profile">Profile</a>
+ <a class="btn btn-danger btn-sm" href="/logout">Logout</a>
 </div>
 
 </div>
@@ -76,14 +76,6 @@ By {{ post.author }} | {{ post.created_at }}
 
 <a href="/post/{{ post._id }}" class="btn btn-primary btn-sm">Read More</a>
 
-<a href="/edit/{{ post._id }}" class="btn btn-warning btn-sm">Edit</a>
-
-<a href="/delete/{{ post._id }}"
-onclick="return confirm('Delete this blog?')"
-class="btn btn-danger btn-sm">
-Delete
-</a>
-
 {% set liked = session.get("email") in post.get("liked_by", []) %}
 
 <a href="/like/{{ post._id }}"
@@ -96,13 +88,26 @@ Delete
 </a>
 
 <a href="/save/{{ post._id }}" class="btn btn-outline-primary btn-sm">
-{% set saved = session.get('saved', []) %} 
+{% set saved = session.get('saved', []) | map('string') | list %} 
 {% if post._id|string in saved %}
     ✔ Saved
 {% else %}
    🔖 Save
 {% endif %}
 </a>
+
+{% if post.author == username %}
+<a href="/edit/{{ post._id }}" class="btn btn-warning btn-sm">
+Edit
+</a>
+
+<a href="/delete/{{ post._id }}" 
+onclick="return confirm('Delete this blog?')"
+class="btn btn-danger btn-sm">
+Delete
+</a>
+{% endif %}
+
 
 </div>
 <!-- PAGINATION -->
