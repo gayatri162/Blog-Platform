@@ -157,6 +157,27 @@ python3 app.py
 
 ## 📷 Screenshots
 
+### 🏠 Home Page
+
+![Home Page](images/home.png)
+
+------
+
+### 🔐 Login Page
+
+![Login Page](images/login.png)
+
+------
+
+### 📖 Dashboard
+
+![Dashboard](images/dashboard.png)
+
+------
+
+### ✍️ Create Blog
+
+![Create Blog](images/create_blog.png)
 
 
 ---
