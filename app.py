@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 cloudinary.config(
     cloud_name=os.getenv("CLOUD_NAME"),
     api_key=os.getenv("API_KEY"),
@@ -35,11 +36,12 @@ def login():
 
         user = users.find_one({"email": email})
 
-        if user and bcrypt.checkpw(password.encode('utf-8'), user["password"]):
+        if user:
+          stored_password = bytes(user["password"])
 
+          if bcrypt.checkpw(password.encode("utf-8"), stored_password):
             session["user"] = user["name"]
             session["email"] = user["email"]
-
             return redirect("/dashboard")
 
         return "Invalid Email or Password!"
@@ -91,8 +93,14 @@ def dashboard():
         page = int(request.args.get("page", 1))
         limit = 6
         skip = (page - 1) * limit
+    if search:
 
-        all_posts = list(posts.find().skip(skip).limit(limit))
+      all_posts = list(posts.find({
+        "title": {"$regex": search, "$options": "i"}
+      }))
+    else:
+      all_posts = list(posts.find().skip(skip).limit(limit))
+      
     return render_template(
         "dashboard.html",
         posts=all_posts,
@@ -196,11 +204,32 @@ def logout():
 @app.route("/like/<id>")
 def like_post(id):
 
-    posts.update_one(
-        {"_id": ObjectId(id)},
-        {"$inc": {"likes": 1}}
-    )
+    if "user" not in session:
+       return redirect("/login")
 
+    post = posts.find_one({"_id": ObjectId(id)})
+    user = session["email"]   # unique user
+
+    liked_by = post.get("liked_by", [])
+
+    if user in liked_by:
+
+        posts.update_one(
+            {"_id": ObjectId(id)},
+            {
+                "$pull": {"liked_by": user},
+                "$inc": {"likes": -1}
+            }
+        )
+    else:
+        posts.update_one(
+            {"_id": ObjectId(id)},
+            {
+                "$push": {"liked_by": user},
+                "$inc": {"likes": 1}
+            }
+        )
+   
     return redirect("/dashboard")
 
 @app.route("/save/<id>")
@@ -228,6 +257,28 @@ def saved():
     }))
 
     return render_template("saved.html", posts=saved_posts)
+
+@app.route("/profile")
+def profile():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    total_posts = posts.count_documents({
+        "author": session["user"]
+    })
+
+    user_posts = list(posts.find({
+        "author": session["user"]
+    }))
+
+    return render_template(
+        "profile.html",
+        username=session["user"],
+        email=session["email"],
+        total_posts=total_posts,
+        posts=user_posts
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

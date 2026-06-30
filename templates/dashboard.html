@@ -84,8 +84,15 @@ class="btn btn-danger btn-sm">
 Delete
 </a>
 
-<a href="/like/{{ post._id }}" class="btn btn-outline-danger btn-sm">
-❤️ {{ post.likes or 0 }}
+{% set liked = session.get("email") in post.get("liked_by", []) %}
+
+<a href="/like/{{ post._id }}"
+   class="btn btn-sm {% if liked %}btn-danger{% else %}btn-outline-danger{% endif %}">
+    {% if liked %}
+        ❤️ Liked ({{ post.likes }})
+    {% else %}
+        🤍 Like ({{ post.likes }})
+    {% endif %}
 </a>
 
 <a href="/save/{{ post._id }}" class="btn btn-outline-primary btn-sm">
